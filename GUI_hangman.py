@@ -3,7 +3,7 @@ import pycountry
 import string
 import tkinter as tk
 
-# Define global variables for chance_label and letters_label
+# Define global variables for multiple functions access
 global chance_label, letters_label
 
 def choose_country():
@@ -64,63 +64,91 @@ def restart_game():
 
 def on_guess():
     global chances
+
+    # Check if the game is already over
     if chances == 0:
         output_var.set("Game over! Please restart to play again.")
         return
+
+    # Get the guessed letter from the entry widget and clear the entry
     guess = entry.get().upper()
     entry.delete(0, tk.END)
+
+    # Check if the guess is a single letter
     if len(guess) != 1 or not guess.isalpha():
         output_var.set("Please enter a single letter!")
         return
+
+    # Process the guess
     if process_guess(hidden_word, guessed_letters, guess):
+        # Check if the player has guessed the entire word
         if display_word(hidden_word, guessed_letters).replace(" ", "") == hidden_word:
             output_var.set("Congratulations! You guessed the country: " + hidden_word)
-            stop_game()
+            stop_game()  # End the game
         else:
-            output_var.set(display_word(hidden_word, guessed_letters))
+            output_var.set(display_word(hidden_word, guessed_letters))  # Update displayed word
     else:
+        # Decrement the chances if the guess is incorrect
         chances -= 1
-        chance_label.config(text="Chances left: {}".format(chances))
-        output_var.set("Incorrect guess. Chances left: " + str(chances))
-        output_var.set(display_word(hidden_word, guessed_letters))
-        draw_hangman(canvas, len(hidden_word) + 2 - chances)
+        chance_label.config(text="Chances left: {}".format(chances))  # Update chances label
+        output_var.set("Incorrect guess. Chances left: " + str(chances))  # Display remaining chances
+        output_var.set(display_word(hidden_word, guessed_letters))  # Update displayed word
+        draw_hangman(canvas, len(hidden_word) + 2 - chances)  # Update Hangman drawing
+
+        # Check if the player has run out of chances
         if chances == 0:
             output_var.set("You ran out of chances. The country was: " + hidden_word)
-            stop_game()
+            stop_game()  # End the game
+
 
 def start_game():
     global hidden_word, guessed_letters, chances, chance_label, letters_label
-    hidden_word, possible_letters = choose_country()
-    guessed_letters = set()
-    chances = len(hidden_word) + 2
-    
+    # Initialize game variables
+    hidden_word, possible_letters = choose_country()  # Get a random country word, possible letters
+    guessed_letters = set()  # store guessed letters
+    chances = len(hidden_word) + 2  # Calculate the number of chances
+
+    # Create the main game window
     window = tk.Tk()
     window.title("Country Hangman Game")
 
+    # Display welcome message
     tk.Label(window, text="Welcome to Country Hangman!").pack()
+
+    # Display the number of chances the player has
     chance_label = tk.Label(window, text="You have {} chances to guess the country.".format(chances))
     chance_label.pack()
+
+    # Display the possible letters for the player to choose from
     letters_label = tk.Label(window, text="Possible letters: " + ' '.join(possible_letters))
     letters_label.pack()
 
+    # Initialize a variable to display the current state of the hidden word
     global output_var
     output_var = tk.StringVar()
     output_var.set(display_word(hidden_word, guessed_letters))
     tk.Label(window, textvariable=output_var).pack()
 
+    # Create an entry widget for the player to input their guess
     global entry
     entry = tk.Entry(window)
     entry.pack()
 
+    # Button to submit a guess
     tk.Button(window, text="Guess", command=on_guess).pack()
+
+    # Button to restart the game
     tk.Button(window, text="Restart", command=restart_game).pack()
 
+    # Create a canvas for drawing the hangman
     global canvas
     canvas = tk.Canvas(window, width=400, height=300)
     canvas.pack()
     draw_hangman(canvas, 0)  # Initialize Hangman drawing
 
+    # Start the main event loop for the game window
     window.mainloop()
+
 
 if __name__ == "__main__":
     start_game()
