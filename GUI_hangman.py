@@ -64,21 +64,17 @@ def restart_game():
 
 def on_guess():
     global chances
-
     # Check if the game is already over
     if chances == 0:
         output_var.set("Game over! Please restart to play again.")
         return
-
     # Get the guessed letter from the entry widget and clear the entry
     guess = entry.get().upper()
     entry.delete(0, tk.END)
-
     # Check if the guess is a single letter
     if len(guess) != 1 or not guess.isalpha():
         output_var.set("Please enter a single letter!")
         return
-
     # Process the guess
     if process_guess(hidden_word, guessed_letters, guess):
         # Check if the player has guessed the entire word
@@ -99,7 +95,6 @@ def on_guess():
         if chances == 0:
             output_var.set("You ran out of chances. The country was: " + hidden_word)
             stop_game()  # End the game
-
 
 def start_game():
     global hidden_word, guessed_letters, chances, chance_label, letters_label
@@ -133,10 +128,8 @@ def start_game():
     global entry
     entry = tk.Entry(window)
     entry.pack()
-
     # Button to submit a guess
     tk.Button(window, text="Guess", command=on_guess).pack()
-
     # Button to restart the game
     tk.Button(window, text="Restart", command=restart_game).pack()
 
@@ -145,10 +138,8 @@ def start_game():
     canvas = tk.Canvas(window, width=400, height=300)
     canvas.pack()
     draw_hangman(canvas, 0)  # Initialize Hangman drawing
-
     # Start the main event loop for the game window
     window.mainloop()
-
 
 if __name__ == "__main__":
     start_game()
