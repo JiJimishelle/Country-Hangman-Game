@@ -106,18 +106,15 @@ def start_game():
     # Create the main game window
     window = tk.Tk()
     window.title("Country Hangman Game")
-
     # Display welcome message
     tk.Label(window, text="Welcome to Country Hangman!").pack()
-
     # Display the number of chances the player has
     chance_label = tk.Label(window, text="You have {} chances to guess the country.".format(chances))
     chance_label.pack()
-
+    
     # Display the possible letters for the player to choose from
     letters_label = tk.Label(window, text="Possible letters: " + ' '.join(possible_letters))
     letters_label.pack()
-
     # Initialize a variable to display the current state of the hidden word
     global output_var
     output_var = tk.StringVar()
