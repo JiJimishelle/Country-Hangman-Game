@@ -65,4 +65,7 @@ Finally, it starts the Tkinter event loop to handle user interactions.
 The code essentially creates a simple hangman game where the player needs to guess a country's name. The player has a limited number of chances to guess the correct letters, and a hangman figure is drawn progressively for each incorrect guess.
 
 
+Full presentation view link: https://www.canva.com/design/DAF_M1Ib-pQ/Gi3Qe5BenKMP47tr0vJXWA/view?utm_content=DAF_M1Ib-pQ&utm_campaign=share_your_design&utm_medium=link&utm_source=shareyourdesignpanel
+
+
       
